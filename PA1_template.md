@@ -1,13 +1,9 @@
----
-title: "Reproducible Research: Peer Assessment 1"
-output: 
-  html_document:
-    keep_md: true
----
+# Reproducible Research: Peer Assessment 1
 
 Common options for the knitr output document are set in the first line of R code.
 
-```{r setoptions}
+
+```r
 library(knitr)
 opts_chunk$set(echo=TRUE, results="hide")
 ```
@@ -21,9 +17,9 @@ opts_chunk$set(echo=TRUE, results="hide")
 
 Asumming that the data file activity.csv is downloaded and avaialble in the working directory, below R code loads the data in R workspace. 
 
-```{r}
-data_df <- read.csv("activity.csv")
 
+```r
+data_df <- read.csv("activity.csv")
 ```
 
 
@@ -44,7 +40,8 @@ Following steps are implemented in below R code:
 stotal_mean contains the mean of total number of steps taken per day.
 
 
-```{r}
+
+```r
 library(plyr)
 
 #Calculate the total number of steps taken per day
@@ -60,7 +57,6 @@ dev.off()
 #Calculate and report the mean and median of the total number of steps taken per day
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
-
 ```
 
 
@@ -72,7 +68,8 @@ stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 To plot 5-intervals vs. average number of steps (for the interval across all days), first compute the dataframe imean_df with two columns steps and interval_avg. Use imean_df to plot interval vs interval_avg to the output file.
 
 
-```{r}
+
+```r
 imean_df <- ddply(data_df,.(interval),summarize, interval_avg=mean(steps, na.rm=TRUE) )
 
 png(filename = "figures/imean_plot.png", width = 480, height = 480, units = "px")
@@ -82,7 +79,6 @@ with(imean_df, plot( interval, interval_avg,
                      main="Average daily activity pattern"))
 
 dev.off()
-
 ```
 
 
@@ -90,11 +86,13 @@ Below R code computes the row in dataframe with max of 5-minute interval, on ave
 
 Answere: 835 (avg steps=206.1698)
 
-```{r results="asis"}
 
+```r
 subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interval','interval_avg'))
-
 ```
+
+    interval interval_avg
+104      835     206.1698
 
 
 
@@ -104,26 +102,27 @@ subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interva
 
 Below R code computes the total number of missing values in the dataset
 
-```{r results="asis"}
 
+```r
 #Calculate and report the total number of missing values in the dataset
 nrow(data_df[complete.cases(data_df)==F,])
-
 ```
+
+[1] 2304
 
 
 
 The NA values are being replaced by the mean for that corresponding 5-minute interval. The newly computed dataset is stored in stotal_df dataframe.
 
 
-```{r}
+
+```r
 #strategy for filling in all of the missing values in the dataset
 data_df[,'steps'] <- ifelse(is.na(data_df$steps),imean_df$interval_avg, data_df$steps)
 
 
 #Create a new dataset that is equal to the original dataset but with the missing data filled in
 stotal_df <- ddply(data_df,.(date),summarize, total_steps_per_day=sum(steps) )
-
 ```
 
 
@@ -132,15 +131,14 @@ stotal_df <- ddply(data_df,.(date),summarize, total_steps_per_day=sum(steps) )
 
 Below R code creates histogram using the new dataframe stotal_df, which has all NA values replaced.
 
-```{r}
 
+```r
 #histogram of the total number of steps taken each day
 png(filename = "figures/hist_wo_na.png", width = 480, height = 480, units = "px")
 
 hist(stotal_df[,'total_steps_per_day'], xlab='total steps per day', ylab='frequency', main='Histogram of total number of steps taken each day')
 
 dev.off()
-
 ```
 
 
@@ -151,13 +149,12 @@ Due to replacing the NA values with mean of steps of corresponsind interval acro
 
 Below R code computes the new stotal_mean and stotal_median from the new stotal_df.
 
-```{r}
 
+```r
 #mean and median total number of steps taken per day
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
-
 ```
 
 
@@ -169,7 +166,8 @@ stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
 Below R code creates a new factor column called day, with two levels "Weekday" and "Weekend". Next the resulting dataframe is grouped by day and interval indicating average number of steps takes per day per interval. This information in than plotted on a lattice.
 
-```{r}
+
+```r
 library(timeDate)
 library(lattice)
 
@@ -184,5 +182,4 @@ png(filename = "figures/wkmean_plot.png", width = 480, height = 480, units = "px
 xyplot((interval_avg/50) ~ interval | day, data=data_wk_mean_df, layout=c(1,2), type='l',xlab='Interval', ylab='Number of steps')
 
 dev.off();
-
 ```
