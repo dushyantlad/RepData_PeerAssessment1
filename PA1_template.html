@@ -74,7 +74,6 @@ opts_chunk$set(echo=TRUE, results=&quot;hide&quot;)</code></pre>
 <li>Compute mean of total_steps_per_day and store it to stotal_mean</li>
 <li>Compute median of total_steps_per_day and store it to stotal_median</li>
 </ol>
-<p>stotal_mean contains the mean of total number of steps taken per day.</p>
 <pre class="r"><code>library(plyr)
 
 #Calculate the total number of steps taken per day
@@ -85,11 +84,14 @@ png(filename = &quot;figures/hist_na.png&quot;, width = 480, height = 480, units
 
 hist(stotal_df[,'total_steps_per_day'], xlab='total steps per day', ylab='frequency', main='Histogram of total number of steps taken each day')
 
-dev.off()
-
-#Calculate and report the mean and median of the total number of steps taken per day
+dev.off()</code></pre>
+<pre class="r"><code>#Calculate and report the mean and median of the total number of steps taken per day
 stotal_mean &lt;- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
-stotal_median &lt;- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)</code></pre>
+stotal_median &lt;- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
+
+stotal_mean
+stotal_median</code></pre>
+<p>Mean=9354.2295082 and median=10395 for total number of steps taken per day.</p>
 </div>
 <div id="what-is-the-average-daily-activity-pattern" class="section level2">
 <h2>What is the average daily activity pattern?</h2>
@@ -105,7 +107,9 @@ with(imean_df, plot( interval, interval_avg,
 dev.off()</code></pre>
 <p>Below R code computes the row in dataframe with max of 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?</p>
 <p>Answere: 835 (avg steps=206.1698)</p>
-<pre class="r"><code>subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interval','interval_avg'))</code></pre>
+<pre class="r"><code>result &lt;-  subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interval','interval_avg'))
+
+result</code></pre>
 <pre><code>interval interval_avg</code></pre>
 <p>104 835 206.1698</p>
 </div>
@@ -134,7 +138,13 @@ dev.off()</code></pre>
 <pre class="r"><code>#mean and median total number of steps taken per day
 stotal_mean &lt;- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
-stotal_median &lt;- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)</code></pre>
+stotal_median &lt;- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
+
+stotal_mean</code></pre>
+<p>[1] 10766.19</p>
+<pre class="r"><code>stotal_median</code></pre>
+<p>[1] 10766.19</p>
+<p>Mean=1.076618910^{4} and median=1.076618910^{4} for total number of steps taken per day for the case where all the NA values are replaced.</p>
 </div>
 <div id="are-there-differences-in-activity-patterns-between-weekdays-and-weekends" class="section level2">
 <h2>Are there differences in activity patterns between weekdays and weekends?</h2>

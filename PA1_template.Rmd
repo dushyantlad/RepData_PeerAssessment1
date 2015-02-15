@@ -41,9 +41,6 @@ Following steps are implemented in below R code:
 5. Compute mean of total_steps_per_day and store it to stotal_mean
 6. Compute median of total_steps_per_day and store it to stotal_median
 
-stotal_mean contains the mean of total number of steps taken per day.
-
-
 ```{r}
 library(plyr)
 
@@ -57,12 +54,22 @@ hist(stotal_df[,'total_steps_per_day'], xlab='total steps per day', ylab='freque
 
 dev.off()
 
+```
+
+
+
+```{r reslults="asis"}
+
 #Calculate and report the mean and median of the total number of steps taken per day
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
+stotal_mean
+stotal_median
+
 ```
 
+ Mean=`r stotal_mean` and median=`r stotal_median` for total number of steps taken per day.
 
 
 
@@ -88,7 +95,7 @@ dev.off()
 
 Below R code computes the row in dataframe with max of 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps? 
 
-Answere: 835 (avg steps=206.1698)
+Answere: 835 (maximum avg steps=206.1698)
 
 ```{r results="asis"}
 
@@ -104,7 +111,7 @@ subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interva
 
 Below R code computes the total number of missing values in the dataset
 
-```{r results="asis"}
+```{r  results="asis"}
 
 #Calculate and report the total number of missing values in the dataset
 nrow(data_df[complete.cases(data_df)==F,])
@@ -151,14 +158,20 @@ Due to replacing the NA values with mean of steps of corresponsind interval acro
 
 Below R code computes the new stotal_mean and stotal_median from the new stotal_df.
 
-```{r}
+```{r results="asis"}
 
 #mean and median total number of steps taken per day
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
+stotal_mean
+stotal_median
+
 ```
+
+
+Mean=`r stotal_mean` and median=`r stotal_median` for total number of steps taken per day for the case where all the NA values are replaced.
 
 
 

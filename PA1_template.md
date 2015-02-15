@@ -37,9 +37,6 @@ Following steps are implemented in below R code:
 5. Compute mean of total_steps_per_day and store it to stotal_mean
 6. Compute median of total_steps_per_day and store it to stotal_median
 
-stotal_mean contains the mean of total number of steps taken per day.
-
-
 
 ```r
 library(plyr)
@@ -53,12 +50,21 @@ png(filename = "figures/hist_na.png", width = 480, height = 480, units = "px")
 hist(stotal_df[,'total_steps_per_day'], xlab='total steps per day', ylab='frequency', main='Histogram of total number of steps taken each day')
 
 dev.off()
+```
 
+
+
+
+```r
 #Calculate and report the mean and median of the total number of steps taken per day
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
+
+stotal_mean
+stotal_median
 ```
 
+ Mean=9354.2295082 and median=10395 for total number of steps taken per day.
 
 
 
@@ -88,7 +94,9 @@ Answere: 835 (avg steps=206.1698)
 
 
 ```r
-subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interval','interval_avg'))
+result <-  subset(imean_df, interval_avg==max(imean_df[,'interval_avg']), select=c('interval','interval_avg'))
+
+result
 ```
 
     interval interval_avg
@@ -155,7 +163,20 @@ Below R code computes the new stotal_mean and stotal_median from the new stotal_
 stotal_mean <- mean(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
 
 stotal_median <- median(stotal_df[,'total_steps_per_day'], na.rm=TRUE)
+
+stotal_mean
 ```
+
+[1] 10766.19
+
+```r
+stotal_median
+```
+
+[1] 10766.19
+
+
+Mean=1.0766189\times 10^{4} and median=1.0766189\times 10^{4} for total number of steps taken per day for the case where all the NA values are replaced.
 
 
 
